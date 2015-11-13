@@ -6,12 +6,15 @@
       "boot_wait": "10s",
       "hard_drive_interface": "sata",
       "disk_size": 8192,
-      "iso_url": "http://mirror.cc.columbia.edu/pub/linux/centos/7/isos/x86_64/CentOS-7-x86_64-NetInstall-1503.iso",
-      "iso_checksum": "111379a06402e1e445c6aeee9401d031",
+      "iso_url": "http://mirror.cc.columbia.edu/pub/linux/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
+      "iso_checksum": "7c1e34e95c991175290d704dbdcc6531774cbecb",
       "iso_checksum_type": "md5",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "shutdown_command": "sudo -S shutdown -P now",
+      "boot_command": [
+        "<tab> text nofb noselinux<enter><wait>"
+      ],
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
