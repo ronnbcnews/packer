@@ -48,6 +48,10 @@ background 0000FF
 #
 #   kernel /platform/i86pc/multiboot <boot-args> -B prop1=val1,prop2=val2,...
 #	kernel /images/kernel/vmlinuz.centos7_1 nofb text inst.stage2=hd:LABEL=LINUX inst.ks=(cd)/configs/ks.cfg inst.repo= ip=1.1.1.1 
+title Install CentOS 7.2 (64-bit)
+	root (cd)
+	kernel /images/kernel/vmlinuz.centos7_2 nofb text noshell net.ifnames=0 ip=dhcp inst.cmdline inst.text inst.ks=cdrom:/configs/ks.cfg inst.repo=http://mirror.centos.org/centos/7.2.1511/os/x86_64/
+	initrd /images/initrd/initrd.centos7_2
 title Install CentOS 7.1 (64-bit)
 	root (cd)
 	kernel /images/kernel/vmlinuz.centos7_1 nofb text noshell net.ifnames=0 ip=dhcp inst.cmdline inst.text inst.ks=cdrom:/configs/ks.cfg inst.repo=http://mirror.centos.org/centos/7.1.1503/os/x86_64/
