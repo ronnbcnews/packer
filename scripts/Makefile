@@ -1,6 +1,8 @@
 XISO_BIN = ../binaries/Darwin/bin/xorriso
 XISO_OPTS = -report_about HINT -as mkisofs -graft-points -J -joliet-long -r -v -T -volid LINUX
 ISO = $(HOME)/Documents/Vagrant/poopit/boot.iso
+PACKER = $(HOME)/Downloads/packer/packer
+
 osxiso:
 	hdiutil create -volname WhatYouWantTheDiskToBeNamed -srcfolder /path/to/the/folder/you/want/to/create -ov -format UDRW name.dmg
 
@@ -9,5 +11,12 @@ iso: clean
 
 xiso: clean
 	$(XISO_BIN) $(XISO_OPTS) -b boot/grub/stage2_eltorito -no-emul-boot -boot-info-table -o $(ISO) output
+
 clean:
 	-rm -f $(ISO)
+
+pack_centos_7_2: packer_validate_7_2
+	$(PACKER) build ../templates/vagrant_centos_7_2.json
+
+packer_validate_7_2:
+	$(PACKER) validate ../templates/vagrant_centos_7_2.json
