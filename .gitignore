@@ -1,4 +1,4 @@
-/.idea
-/packer.iml
-package_cache/*.iso
-/scripts/boot.iso
+.idea
+packer.iml
+templates/packer_cache/*
+scripts/boot.iso
