@@ -1,0 +1,38 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<wait>",
+        "kernel /images/kernel/vmlinuz.centos7_2 <wait>",
+        "inst.repo=http://mirror.centos.org/centos/7.2.1511/os/x86_64/ <wait>",
+        "nofb text noshell net.ifnames=0 <wait>",
+        "ip=dhcp inst.cmdline inst.text inst.ks=cdrom:/configs/ks_vagrant.cfg <wait>",
+        "<enter>",
+        "initrd /images/initrd/initrd.centos7_2<enter><wait>",
+        "boot <enter>"
+      ],
+      "guest_os_type": "RedHat_64",
+      "boot_wait": "2s",
+      "hard_drive_interface": "sata",
+      "disk_size": 8192,
+      "iso_url": "boot.iso",
+      "iso_checksum_type": "none",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "shutdown_command": "sudo -S shutdown -P now",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+      ]
+    }
+    ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "CentOS-7-1503-x86_64-{{.Provider}}.box"
+    }
+  ]
+}
