@@ -6,8 +6,9 @@
         "<wait>",
         "kernel /images/kernel/vmlinuz.centos7_2 <wait>",
         "inst.repo=http://mirror.centos.org/centos/7.2.1511/os/x86_64/ <wait>",
-        "nofb text noshell net.ifnames=0 <wait>",
-        "ip=dhcp inst.cmdline inst.text inst.ks=cdrom:/configs/ks_vagrant.cfg <wait>",
+        "nofb text net.ifnames=0 <wait>",
+        "ip=dhcp inst.cmdline inst.text inst.ks=cdrom:/configs/ks.cfg <wait>",
+        "vagrantinstall <wait>",
         "<enter>",
         "initrd /images/initrd/initrd.centos7_2<enter><wait>",
         "boot <enter>"
