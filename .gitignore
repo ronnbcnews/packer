@@ -1,3 +1,4 @@
 /.idea
 /packer.iml
 package_cache/*.iso
+/scripts/boot.iso
