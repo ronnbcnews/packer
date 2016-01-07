@@ -34,7 +34,15 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "CentOS-7-1503-x86_64-{{.Provider}}.box"
+      "output": "CentOS-7-1511-x86_64-{{.Provider}}.box"
     }
-  ]
+  ],
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "scripts": [
+      "guestadditions.bash",
+      "cleanup.bash"
+    ]
+  }]
 }
