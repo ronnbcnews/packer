@@ -2,7 +2,7 @@ XISO_BIN = ../binaries/Darwin/bin/xorriso
 XISO_OPTS = -report_about HINT -as mkisofs -graft-points -J -joliet-long -r -v -T -volid LINUX
 ISO = boot.iso
 PACKER = $(HOME)/Downloads/packer/packer
-TEMPLATE = ../templates/vagrant_centos_7_2_00.json
+TEMPLATE = ../templates/packer/vagrant_centos_7_2_00.json
 osxiso:
 	hdiutil create -volname WhatYouWantTheDiskToBeNamed -srcfolder /path/to/the/folder/you/want/to/create -ov -format UDRW name.dmg
 
@@ -20,3 +20,6 @@ pack_centos_7_2: packer_validate_7_2 xiso
 
 packer_validate_7_2:
 	$(PACKER) validate $(TEMPLATE)
+
+box_centos_7_2: pack_centos_7_2
+	vagrant box add -f --name centos_7_2 CentOS-7-1511-x86_64-virtualbox.box
