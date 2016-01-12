@@ -1,7 +1,9 @@
 {
   "_comment": [
-    "how to build manually",
-    "packer build -var 'aws_access_key=YOUR ACCESS KEY' -var 'aws_secret_key=YOUR SECRET KEY' example.json"
+    "how to build manually:",
+    "packer build -var 'aws_access_key=YOUR ACCESS KEY' -var 'aws_secret_key=YOUR SECRET KEY' example.json",
+    "with vagrant:",
+    "vagrant plugin install vagrant-aws"
     ],
   "variables": {
     "aws_access_key": "",
