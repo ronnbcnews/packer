@@ -1,0 +1,43 @@
+{
+  "_comment": [
+    "how to build manually",
+    "packer build -var 'aws_access_key=YOUR ACCESS KEY' -var 'aws_secret_key=YOUR SECRET KEY' example.json"
+    ],
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "ssh_username": "enbeesee",
+      "instance_type": "t1.micro",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "ami_name": "CentOS_7_2-{{timestamp}}",
+      "ami_description": "CentOS_7_2-{{timestamp}}",
+      "force_deregister": true,
+      "ami_regions": [
+        "us-west-1"
+      ],
+      "tags": {
+        "OS": "CentOS",
+        "Version": "7.2",
+        "Release": "Latest"
+      }
+    }
+    ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "CentOS-7-1511-x86_64-{{.Provider}}.box"
+    }
+  ],
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "scripts": [
+      "cleanup.bash"
+    ]
+  }]
+}
