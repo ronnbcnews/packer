@@ -18,8 +18,14 @@ clean:
 pack_centos_7_2: packer_validate_7_2 xiso
 	$(PACKER) build $(TEMPLATE)
 
+pack_centos_7_0: xiso
+	$(PACKER) build ../templates/packer/vagrant_centos_7_0_00.json
+
 packer_validate_7_2:
 	$(PACKER) validate $(TEMPLATE)
 
 box_centos_7_2: pack_centos_7_2
 	vagrant box add -f --name centos_7_2 CentOS-7-1511-x86_64-virtualbox.box
+
+box_centos_7_0: pack_centos_7_0
+	vagrant box add -f --name centos_7_0 CentOS-7-1406-x86_64-virtualbox.box
