@@ -1,0 +1,52 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<wait>",
+        "kernel /images/kernel/vmlinuz.centos_6_7 <wait>",
+        "method=http://mirror.centos.org/centos/6.7/os/x86_64/ <wait>",
+        "nofb text net.ifnames=0 <wait>",
+        "ip=dhcp inst.cmdline inst.text <wait>",
+        "ks=cdrom:/configs/ks.cfg <wait>",
+        "vagrantinstall <wait>",
+        "<enter>",
+        "initrd /images/initrd/initrd.centos_6_7<enter><wait>",
+        "boot <enter>"
+      ],
+      "guest_os_type": "RedHat_64",
+      "boot_wait": "2s",
+      "hard_drive_interface": "sata",
+      "headless": true,
+      "disk_size": 8192,
+      "iso_url": "boot.iso",
+      "iso_checksum_type": "none",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "40000s",
+      "shutdown_command": "sudo -S shutdown -P now",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+      ]
+    }
+    ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "CentOS-6-7-x86_64-{{.Provider}}.box"
+    }
+  ],
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "scripts": [
+      "guestadditions.bash",
+      "cleanup.bash",
+      "insecure_key.sh",
+      "network.bash"
+    ]
+  }]
+}
