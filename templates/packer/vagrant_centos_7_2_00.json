@@ -44,7 +44,8 @@
     "scripts": [
       "guestadditions.bash",
       "cleanup.bash",
-      "insecure_key.sh"
+      "insecure_key.sh",
+      "network.bash"
     ]
   }]
 }

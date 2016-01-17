@@ -16,7 +16,7 @@
       "guest_os_type": "RedHat_64",
       "boot_wait": "2s",
       "hard_drive_interface": "sata",
-      "headless": false,
+      "headless": true,
       "disk_size": 8192,
       "iso_url": "boot.iso",
       "iso_checksum_type": "none",
@@ -44,7 +44,8 @@
     "scripts": [
       "guestadditions.bash",
       "cleanup.bash",
-      "insecure_key.sh"
+      "insecure_key.sh",
+      "network.bash"
     ]
   }]
 }
