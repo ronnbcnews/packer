@@ -13,13 +13,16 @@ xiso: clean
 	$(XISO_BIN) $(XISO_OPTS) -b boot/grub/stage2_eltorito -no-emul-boot -boot-info-table -o $(ISO) output
 
 clean:
-	-rm -f $(ISO)
+	-rm -f $(ISO) *.box
 
 pack_centos_7_2: packer_validate_7_2 xiso
 	$(PACKER) build $(TEMPLATE)
 
 pack_centos_7_0: xiso
 	$(PACKER) build ../templates/packer/vagrant_centos_7_0_00.json
+
+pack_centos_6_7: xiso
+	$(PACKER) build ../templates/packer/vagrant_centos_6_7_00.json
 
 packer_validate_7_2:
 	$(PACKER) validate $(TEMPLATE)
@@ -29,3 +32,6 @@ box_centos_7_2: pack_centos_7_2
 
 box_centos_7_0: pack_centos_7_0
 	vagrant box add -f --name centos_7_0 CentOS-7-1406-x86_64-virtualbox.box
+
+box_centos_6_7: pack_centos_6_7
+	vagrant box add -f --name centos_6_7 CentOS-6-7-x86_64-virtualbox.box
