@@ -24,6 +24,9 @@ pack_centos_7_0: xiso
 pack_centos_6_7: xiso
 	$(PACKER) build ../templates/packer/vagrant_centos_6_7_00.json
 
+pack_aws_centos_6_7: xiso
+	$(PACKER) build ../templates/packer/aws_centos_6_7_00.json
+
 packer_validate_7_2:
 	$(PACKER) validate $(TEMPLATE)
 
@@ -35,3 +38,6 @@ box_centos_7_0: pack_centos_7_0
 
 box_centos_6_7: pack_centos_6_7
 	vagrant box add -f --name centos_6_7 CentOS-6-7-x86_64-virtualbox.box
+
+box_aws_centos_6_7: pack_aws_centos_6_7
+	vagrant box add -f --name aws_centos_6_7 CentOS-6-7-x86_64-AWS.box
