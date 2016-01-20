@@ -35,6 +35,7 @@
   "post-processors": [
     {
       "type": "vagrant",
+      "keep_input_artifact": true,
       "output": "CentOS-6-7-x86_64-AWS.box"
     }
   ],
