@@ -1,0 +1,28 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-west-2",
+    "source_ami": "ami-8326c0e3",
+    "instance_type": "t2.micro",
+    "ssh_username": "enbeesee",
+    "ami_name": "CentOS_7_2-mpxgo",
+    "ssh_pty": "true",
+    "security_group_id": "sg-306b1d55",
+    "subnet_id": "subnet-825691f5"
+  }],
+  "provisioners": [
+    {"type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "scripts": [
+      "./repo/packer/scripts/aws.bash"]},
+    {"type": "file",
+    "source": "/Users/zrohde/projects/digitalplatform/mpxgo.bin",
+    "destination": "/opt/mpxgo/webroot/mpxgo.bin"}]
+}
+
