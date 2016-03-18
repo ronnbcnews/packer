@@ -25,8 +25,16 @@
       "destination": "/tmp/"
     },
     {
+      "type": "file",
+      "source": "../puppet/",
+      "destination": "/tmp/"
+    },
+    {
       "type": "puppet-masterless",
-      "manifest_file": "../puppet/manifests/mpxgo.pp",
+      "manifest_file": "../puppet/environments/production/manifests/mpxgo.pp",
+      "module_paths": [
+        "../puppet/environments/production/modules"
+        ],
       "facter": {
         "hostgroup": "mpxgo"
       }
