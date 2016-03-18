@@ -35,6 +35,7 @@
       "module_paths": [
         "../puppet/environments/production/modules"
         ],
+      "hiera_config_path": "hiera",
       "facter": {
         "hostgroup": "mpxgo"
       }
