@@ -1,7 +1,9 @@
 {
   "variables": {
-    "aws_access_key": "",
-    "aws_secret_key": ""
+    "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
+    "sg_id": "{{env `SG_ID`}}",
+    "subnet_id": "{{env `SUBNET_ID`}}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -11,26 +13,39 @@
     "source_ami": "ami-8326c0e3",
     "instance_type": "t2.micro",
     "ssh_username": "enbeesee",
-    "ami_name": "CentOS_7_2-mpxgo_{{isotime |clean_ami_name}}",
+    "ami_name": "{{isotime |clean_ami_name}}_CentOS_7_2-mpxgo",
     "ssh_pty": "true",
-    "security_group_id": "sg-306b1d55",
-    "subnet_id": "subnet-825691f5"
+    "security_group_id": "{{user `sg_id`}}",
+    "subnet_id": "{{user `subnet_id`}}"
   }],
   "provisioners": [
+    {
+      "type": "file",
+      "source": "../hiera/",
+      "destination": "/tmp/"
+    },
+    {
+      "type": "puppet-masterless",
+      "manifest_file": "../puppet/manifests/mpxgo.pp",
+      "facter": {
+        "hostgroup": "mpxgo"
+      }
+    },
     {"type": "file",
-    "source": "scripts/cleanup.inc",
+    "source": "cleanup.inc",
     "destination": "/tmp/cleanup.inc"},
     {"type": "shell",
     "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
     "scripts": [
-      "scripts/aws_clean.bash"]},
+      "aws_clean.bash"]},
     {"type": "shell",
       "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "scripts": [
-        "scripts/deploy.bash"]},
+        "deploy.bash"]},
     {"type": "file",
     "source": "mpxgo.bin",
-    "destination": "/opt/mpxgo/webroot/mpxgo.bin"}]
+    "destination": "/opt/mpxgo/webroot/mpxgo.bin"}
+  ]
 
 }
 

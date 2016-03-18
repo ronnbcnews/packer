@@ -15,6 +15,9 @@ xiso: clean
 clean:
 	-rm -f $(ISO) *.box
 
+pack_app: packer_validate_7_2 
+	$(PACKER) build $(TEMPLATE)
+
 pack_centos_7_2: packer_validate_7_2 xiso
 	$(PACKER) build $(TEMPLATE)
 
