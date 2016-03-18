@@ -1,0 +1,9 @@
+[submodule "hiera"]
+	path = hiera
+	url = https://github.com/NBCWebops/newshiera
+[submodule "scripts/puppet"]
+	path = scripts/puppet
+	url = https://github.com/NBCWebops/newscfg
+[submodule "puppet"]
+	path = puppet
+	url = https://github.com/NBCWebops/newscfg
