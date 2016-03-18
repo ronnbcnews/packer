@@ -29,7 +29,7 @@
       "scripts": [
         "scripts/deploy.bash"]},
     {"type": "file",
-    "source": "/Users/zrohde/projects/digitalplatform/mpxgo.bin",
+    "source": "mpxgo.bin",
     "destination": "/opt/mpxgo/webroot/mpxgo.bin"}]
 
 }
