@@ -11,7 +11,7 @@
     "source_ami": "ami-8326c0e3",
     "instance_type": "t2.micro",
     "ssh_username": "enbeesee",
-    "ami_name": "CentOS_7_2-mpxgo",
+    "ami_name": "CentOS_7_2-mpxgo_{{isotime |clean_ami_name}}",
     "ssh_pty": "true",
     "security_group_id": "sg-306b1d55",
     "subnet_id": "subnet-825691f5"
