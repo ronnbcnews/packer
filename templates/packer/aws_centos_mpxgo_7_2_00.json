@@ -17,12 +17,20 @@
     "subnet_id": "subnet-825691f5"
   }],
   "provisioners": [
+    {"type": "file",
+    "source": "scripts/cleanup.inc",
+    "destination": "/tmp/cleanup.inc"},
     {"type": "shell",
     "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
     "scripts": [
-      "./repo/packer/scripts/aws.bash"]},
+      "scripts/aws_clean.bash"]},
+    {"type": "shell",
+      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "scripts/deploy.bash"]},
     {"type": "file",
     "source": "/Users/zrohde/projects/digitalplatform/mpxgo.bin",
     "destination": "/opt/mpxgo/webroot/mpxgo.bin"}]
+
 }
 
