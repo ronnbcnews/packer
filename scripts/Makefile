@@ -19,7 +19,7 @@ pack_app_debug: packer_validate_7_2
 	$(PACKER) build -debug $(TEMPLATE)
 
 pack_app: packer_validate_7_2 
-	$(PACKER) build $(TEMPLATE)
+	$(PACKER) build -machine-readable $(TEMPLATE)
 
 pack_centos_7_2: packer_validate_7_2 xiso
 	$(PACKER) build $(TEMPLATE)
