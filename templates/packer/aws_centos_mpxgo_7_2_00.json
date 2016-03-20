@@ -94,11 +94,6 @@
       "execute_command": "sudo bash '{{.Path}}'"
     },
     {
-      "type": "file",
-      "source": "cleanup.inc",
-      "destination": "/tmp/cleanup.inc"
-    },
-    {
       "type": "shell",
       "execute_command": "{{.Vars}} sudo -E bash '{{.Path}}'",
       "scripts": [
@@ -107,8 +102,8 @@
     },
     {
       "type": "file",
-      "source": "mpxgo.bin",
-      "destination": "/opt/mpxgo/webroot/mpxgo.bin"
+      "source": "{{user `app_name`}}.bin",
+      "destination": "/opt/{{user `app_name`}}/webroot/{{user `app_name`}}.bin"
     }
   ]
 
