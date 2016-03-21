@@ -1,0 +1,115 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
+    "sg_id": "{{env `SG_ID`}}",
+    "subnet_id": "{{env `SUBNET_ID`}}",
+    "puppet_cmd": "sudo -E puppet apply -v --hiera_config=/tmp/hiera.yaml --detailed-exitcodes",
+    "facter_vars": "FACTER_location=US-WEST",
+    "source_ami": "ami-8326c0e3",
+    "instance_type": "t2.micro",
+    "region": "us-west-2",
+    "katello_server": "newa1katcadmz01.west.nbcnd.aws",
+    "katello_key": "Production_7_2-UHJvZHVjdGlvbl83XzItCg",
+    "katello_org": "NBCND",
+    "content_source": "newa1katdmz01.west.nbcnd.aws",
+    "jenkins_build_number": "{{env `BUILD_ID`}}",
+    "deploy_env": "{{env `DEPLOY_ENV`}}",
+    "app_name": "{{env `APPNAME`}}",
+    "instance_uuid": "{{env `UUID`}}"
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "{{user `region`}}",
+    "source_ami": "{{user `source_ami`}}",
+    "force_deregister": true,
+    "instance_type": "{{user `instance_type`}}",
+    "ssh_username": "enbeesee",
+    "ami_name": "{{isotime \"2006-01-02\"}}-{{user `jenkins_build_number`}}-{{user `deploy_env`}}_CentOS_7_2-mpxgo",
+    "ssh_pty": "true",
+    "security_group_id": "{{user `sg_id`}}",
+    "subnet_id": "{{user `subnet_id`}}",
+    "tags": {
+      "OS_Version": "CentOS",
+      "APPNAME": "{{user `app_name`}}",
+      "App_Release": "{{user `application_release`}}",
+      "UUID": "{{uuid}}"
+    }
+  }],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "../hiera",
+      "destination": "/tmp"
+    },
+    {
+      "type": "puppet-masterless",
+      "clean_staging_directory": true,
+      "manifest_file": "../puppet/environments/production/manifests/packer.pp",
+      "module_paths": [
+        "../puppet/environments/production/modules"
+      ]
+    },
+    {
+      "type": "puppet-masterless",
+      "clean_staging_directory": true,
+      "extra_arguments": [
+        "--hiera_config=/tmp/hiera.yaml"
+      ],
+      "manifest_file": "../puppet/environments/production/manifests/resolver.pp",
+      "module_paths": [
+        "../puppet/environments/production/modules"
+      ],
+      "facter": {
+        "location": "US-WEST"
+      }
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "rm -vf /etc/yum.repos.d/*.repo",
+        "rpm  -ihv http://newa1katcadmz01.west.nbcnd.aws/pub/katello-ca-consumer-latest.noarch.rpm",
+        "subscription-manager register --name=$(hostname -f ) --org=\"NBCND\" --activationkey=\"Production_7_2-UHJvZHVjdGlvbl83XzItCg\" --force",
+        "subscription-manager config --rhsm.baseurl=\"https://newa1katdmz01.west.nbcnd.aws/pulp/repos\"",
+        "yum -q clean all"
+      ],
+      "execute_command": "sudo bash '{{.Path}}'"
+    },
+    {
+      "type": "puppet-masterless",
+      "clean_staging_directory": true,
+      "extra_arguments": [
+        "--hiera_config=/tmp/hiera.yaml"
+      ],
+      "manifest_file": "../puppet/environments/production/manifests/mpxgo.pp",
+      "module_paths": [
+        "../puppet/environments/production/modules"
+        ],
+      "facter": {
+        "hostgroup": "nbcnews-mpxgo"
+      }
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "subscription-manager unregister"
+      ],
+      "execute_command": "sudo bash '{{.Path}}'"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -E bash '{{.Path}}'",
+      "scripts": [
+        "aws_clean.bash",
+        "deploy.bash"]
+    },
+    {
+      "type": "file",
+      "source": "{{user `app_name`}}.bin",
+      "destination": "/opt/{{user `app_name`}}/webroot/{{user `app_name`}}.bin"
+    }
+  ]
+
+}
