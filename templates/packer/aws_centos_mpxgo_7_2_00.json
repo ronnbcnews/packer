@@ -9,10 +9,14 @@
     "source_ami": "ami-8326c0e3",
     "instance_type": "t2.micro",
     "region": "us-west-2",
+    "katello_server": "newa1katcadmz01.west.nbcnd.aws",
+    "katello_key": "Production_7_2-UHJvZHVjdGlvbl83XzItCg",
+    "katello_org": "NBCND",
+    "content_source": "newa1katdmz01.west.nbcnd.aws",
     "jenkins_build_number": "{{env `BUILD_ID`}}",
     "deploy_env": "{{env `DEPLOY_ENV`}}",
     "app_name": "{{env `APPNAME`}}",
-    "uuid": "{{env `UUID`}}"
+    "instance_uuid": "{{env `UUID`}}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -20,6 +24,7 @@
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "{{user `region`}}",
     "source_ami": "{{user `source_ami`}}",
+    "force_deregister": true,
     "instance_type": "{{user `instance_type`}}",
     "ssh_username": "enbeesee",
     "ami_name": "{{isotime \"2006-01-02\"}}-{{user `jenkins_build_number`}}-{{user `deploy_env`}}_CentOS_7_2-mpxgo",
@@ -30,7 +35,7 @@
       "OS_Version": "CentOS",
       "APPNAME": "{{user `app_name`}}",
       "App_Release": "{{user `application_release`}}",
-      "UUID": "{{user `uuid`}}"
+      "UUID": "{{uuid}}"
     }
   }],
   "provisioners": [
