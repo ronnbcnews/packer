@@ -15,3 +15,4 @@ find /var/tmp/ -type f -delete
 find /var/run/ -type f -delete
 find /var/lib/dhclient -type f -exec rm -f '{}' +
 rm -vf /etc/sudoers.d/*
+rm -vf /home/enbeesee/.ssh/authorized_keys
