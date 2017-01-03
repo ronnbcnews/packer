@@ -6,7 +6,7 @@
     "subnet_id": "{{env `SUBNET_ID`}}",
     "puppet_cmd": "sudo -E puppet apply -v --hiera_config=/tmp/hiera.yaml --detailed-exitcodes",
     "facter_vars": "FACTER_location=US-WEST",
-    "source_ami": "ami-8326c0e3",
+    "source_ami": "ami-b32686d3",
     "instance_type": "t2.micro",
     "region": "us-west-2",
     "katello_server": "newa1katcadmz01.west.nbcnd.aws",
@@ -93,7 +93,7 @@
         "../puppet/environments/production/modules"
         ],
       "facter": {
-        "hostgroup": "nbcnews-mpxgo"
+        "hostgroup": "base"
       }
     },
     {
